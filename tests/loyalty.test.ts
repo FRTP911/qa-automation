@@ -10,4 +10,11 @@ describe('calcLoyaltyDiscount', () => {
       );
     },
   );
+
+  it.each([0, 0.5, 0.999])(
+    'стаж до одного року не дає знижки: %s',
+    (years) => {
+      expect(calcLoyaltyDiscount(years)).toBe(0);
+    },
+  );
 });
