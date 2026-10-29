@@ -23,7 +23,7 @@ export function calcParkingFee(
 
   let fee = Math.min(FIRST_HOUR_FEE + extraHours * EXTRA_HOUR_FEE, DAILY_CAP);
 
-  if (options.night) fee = fee / 2;
+  if (options.night) fee = fee *= 0.5;
   if (options.weekend) fee = fee * 0.8;
 
   return fee;
