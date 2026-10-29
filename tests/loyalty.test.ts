@@ -41,4 +41,18 @@ describe('calcLoyaltyDiscount', () => {
   ])('стаж $years років дає 15% знижки', ({ years, expected }) => {
     expect(calcLoyaltyDiscount(years)).toBe(expected);
   });
+
+  it.each([
+    { years: 0.5, expected: 0 },
+    { years: 1, expected: 10 },
+    { years: 3, expected: 20 },
+    { years: 5, expected: 30 },
+  ])(
+    'у день народження знижка для стажу $years років подвоюється: $expected%',
+    ({ years, expected }) => {
+      expect(
+        calcLoyaltyDiscount(years, { birthday: true }),
+      ).toBe(expected);
+    },
+  );
 });
