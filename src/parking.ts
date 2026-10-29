@@ -21,7 +21,9 @@ export function calcParkingFee(
 
   const extraHours = Math.ceil((minutes - 60) / 60);
 
-  const fee = FIRST_HOUR_FEE + extraHours * EXTRA_HOUR_FEE;
+  let fee = Math.min(FIRST_HOUR_FEE + extraHours * EXTRA_HOUR_FEE, DAILY_CAP);
 
-  return Math.min(fee, DAILY_CAP);
+  if (options.night) fee = fee / 2;
+
+  return fee;
 }
