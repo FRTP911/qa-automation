@@ -10,11 +10,15 @@ function assertValidExperience(years: number): void {
   }
 }
 
-export function calcLoyaltyDiscount(years: number): number {
-  assertValidExperience(years);
-
+function getBaseDiscount(years: number): number {
   if (years < FIRST_TIER_START) return 0;
   if (years < SECOND_TIER_START) return FIRST_TIER_RATE;
 
   return SECOND_TIER_RATE;
+}
+
+export function calcLoyaltyDiscount(years: number): number {
+  assertValidExperience(years);
+
+  return getBaseDiscount(years);
 }
