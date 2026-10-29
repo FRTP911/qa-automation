@@ -1,4 +1,5 @@
 const INVALID_EXPERIENCE = 'INVALID_EXPERIENCE';
+const BIRTHDAY_MULTIPLIER = 2;
 
 export interface LoyaltyOptions {
   birthday?: boolean;
@@ -32,12 +33,20 @@ function getBaseDiscount(years: number): number {
   return discount;
 }
 
+function applyBirthdayBonus(
+  discount: number,
+  options: LoyaltyOptions,
+): number {
+  return options.birthday
+    ? discount * BIRTHDAY_MULTIPLIER
+    : discount;
+}
+
 export function calcLoyaltyDiscount(
   years: number,
   options: LoyaltyOptions = {},
 ): number {
   assertValidExperience(years);
 
-  const discount = getBaseDiscount(years);
-  return options.birthday ? discount * 2 : discount;
+  return applyBirthdayBonus(getBaseDiscount(years), options);
 }
