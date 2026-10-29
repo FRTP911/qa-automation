@@ -1,5 +1,9 @@
 const INVALID_EXPERIENCE = 'INVALID_EXPERIENCE';
 
+export interface LoyaltyOptions {
+  birthday?: boolean;
+}
+
 interface DiscountTier {
   readonly minYears: number;
   readonly rate: number;
@@ -28,8 +32,12 @@ function getBaseDiscount(years: number): number {
   return discount;
 }
 
-export function calcLoyaltyDiscount(years: number): number {
+export function calcLoyaltyDiscount(
+  years: number,
+  options: LoyaltyOptions = {},
+): number {
   assertValidExperience(years);
 
-  return getBaseDiscount(years);
+  const discount = getBaseDiscount(years);
+  return options.birthday ? discount * 2 : discount;
 }
