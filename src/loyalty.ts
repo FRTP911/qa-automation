@@ -9,5 +9,7 @@ function assertValidExperience(years: number): void {
 export function calcLoyaltyDiscount(years: number): number {
   assertValidExperience(years);
 
-  return 0;
+  if (years < 1) return 0;
+
+  return 5;
 }
