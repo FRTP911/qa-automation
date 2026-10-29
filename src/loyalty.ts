@@ -1,5 +1,9 @@
 const INVALID_EXPERIENCE = 'INVALID_EXPERIENCE';
 
 export function calcLoyaltyDiscount(years: number): number {
-  throw new Error(INVALID_EXPERIENCE);
+  if (!Number.isFinite(years) || years < 0) {
+    throw new Error(INVALID_EXPERIENCE);
+  }
+
+  return 0;
 }
