@@ -50,3 +50,21 @@ it.each([
       .toBeCloseTo(expected, 2);
   },
 );
+it.each([
+  {
+    minutes: 600,
+    opts: { weekend: true },
+    expected: 160,
+  },
+  {
+    minutes: 600,
+    opts: { night: true, weekend: true },
+    expected: 80,
+  },
+])(
+  'вихідний: $minutes → $expected',
+  ({ minutes, opts, expected }) => {
+    expect(calcParkingFee(minutes, opts))
+      .toBeCloseTo(expected, 2);
+  },
+);
