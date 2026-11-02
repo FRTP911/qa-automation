@@ -1,0 +1,58 @@
+import { describe, expect, it } from 'vitest';
+import { calcLoyaltyDiscount } from '../src/loyalty';
+
+describe('calcLoyaltyDiscount', () => {
+  it.each([-1, -0.01, Number.NaN, Number.POSITIVE_INFINITY])(
+    'відхиляє некоректний стаж %s',
+    (years) => {
+      expect(() => calcLoyaltyDiscount(years)).toThrow(
+        'INVALID_EXPERIENCE',
+      );
+    },
+  );
+
+  it.each([0, 0.5, 0.999])(
+    'стаж до одного року не дає знижки: %s',
+    (years) => {
+      expect(calcLoyaltyDiscount(years)).toBe(0);
+    },
+  );
+
+  it.each([
+    { years: 1, expected: 5 },
+    { years: 2, expected: 5 },
+    { years: 2.999, expected: 5 },
+  ])('стаж $years років дає 5% знижки', ({ years, expected }) => {
+    expect(calcLoyaltyDiscount(years)).toBe(expected);
+  });
+
+  it.each([
+    { years: 3, expected: 10 },
+    { years: 4, expected: 10 },
+    { years: 4.999, expected: 10 },
+  ])('стаж $years років дає 10% знижки', ({ years, expected }) => {
+    expect(calcLoyaltyDiscount(years)).toBe(expected);
+  });
+
+  it.each([
+    { years: 5, expected: 15 },
+    { years: 6, expected: 15 },
+    { years: 10, expected: 15 },
+  ])('стаж $years років дає 15% знижки', ({ years, expected }) => {
+    expect(calcLoyaltyDiscount(years)).toBe(expected);
+  });
+
+  it.each([
+    { years: 0.5, expected: 0 },
+    { years: 1, expected: 10 },
+    { years: 3, expected: 20 },
+    { years: 5, expected: 30 },
+  ])(
+    'у день народження знижка для стажу $years років подвоюється: $expected%',
+    ({ years, expected }) => {
+      expect(
+        calcLoyaltyDiscount(years, { birthday: true }),
+      ).toBe(expected);
+    },
+  );
+});
